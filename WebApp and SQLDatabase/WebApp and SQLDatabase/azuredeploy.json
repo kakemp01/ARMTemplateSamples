@@ -101,8 +101,8 @@
           "location": "[resourceGroup().location]",
           "name": "AllowAllWindowsAzureIps",
           "properties": {
-            "endIpAddress": "0.0.0.0",
-            "startIpAddress": "0.0.0.0"
+            "endIpAddress": "188.194.133.92",
+            "startIpAddress": "188.194.133.92"
           }
         }
       ]
