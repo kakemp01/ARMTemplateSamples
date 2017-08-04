@@ -52,7 +52,7 @@
     },
     "sqlserverName": {
       "type": "string",
-      "defaultValue": "KK-AzureSQL-SampleServer"
+      "defaultValue": "kk-sqldatabase-sample-srv"
     },
     "databaseName": {
       "type": "string",

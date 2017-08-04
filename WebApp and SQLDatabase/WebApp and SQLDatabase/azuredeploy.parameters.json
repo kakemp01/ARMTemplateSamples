@@ -15,7 +15,7 @@
       "value": "GEN-WEBSITENAME"
     },
     "sqlserverName": {
-      "value": "GEN-SQLSERVERNAME"
+      "value": "gen-sqlservername"
     },
     "databaseName": {
       "value": "GEN-DATABASENAME"
