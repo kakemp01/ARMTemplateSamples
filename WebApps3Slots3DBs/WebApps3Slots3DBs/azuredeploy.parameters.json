@@ -31,9 +31,6 @@
     },
     "sqlAdministratorLoginPassword": {
       "value": ""
-    },
-    "sqlAdministratorLoginPasswordForTest": {
-      "value": ""
     }
   }
 }
