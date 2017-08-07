@@ -25,7 +25,12 @@
     },
     "devSlot": {
       "value": "dev"
+    },
+    "appInsightsName": {
+      "value": "msft-insights"
+    },
+    "appInsightsName-dev": {
+      "value": "msft-insights-dev"
     }
-
   }
 }
