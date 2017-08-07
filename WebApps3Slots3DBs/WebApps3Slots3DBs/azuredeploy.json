@@ -15,9 +15,7 @@
     "sqlAdministratorLoginPassword": {
       "type": "securestring"
     },
-    "sqlAdministratorLoginPasswordForTest": {
-      "type": "securestring"
-    },
+   
     "databaseName": {
       "type": "string",
       "defaultValue": "kkdatabaseName"
@@ -144,7 +142,7 @@
       },
       "properties": {
         "administratorLogin": "[parameters('sqlAdministratorLogin')]",
-        "administratorLoginPassword": "[parameters('sqlAdministratorLoginPasswordForTest')]"
+        "administratorLoginPassword": "[parameters('sqlAdministratorLoginPassword')]"
       },
       "resources": [
         {
@@ -156,7 +154,7 @@
             "[resourceId('Microsoft.Sql/servers', variables('sqlServerNameDev'))]"
           ],
           "tags": {
-            "displayName": "FirewallRule Dev"
+            "displayName": "FirewallRuleDev"
           },
           "properties": {
             "startIpAddress": "0.0.0.0",
@@ -172,7 +170,7 @@
             "[resourceId('Microsoft.Sql/servers', variables('sqlServerNameDev'))]"
           ],
           "tags": {
-            "displayName": "Database Dev"
+            "displayName": "DatabaseDev"
           },
           "properties": {
             "collation": "[parameters('dbCollation')]",
@@ -193,7 +191,7 @@
       },
       "properties": {
         "administratorLogin": "[parameters('sqlAdministratorLogin')]",
-        "administratorLoginPassword": "[parameters('sqlAdministratorLoginPasswordForTest')]"
+        "administratorLoginPassword": "[parameters('sqlAdministratorLoginPassword')]"
       },
       "resources": [
         {
@@ -205,7 +203,7 @@
             "[resourceId('Microsoft.Sql/servers', variables('sqlServerNameStage'))]"
           ],
           "tags": {
-            "displayName": "FirewallRule"
+            "displayName": "FirewallRuleStage"
           },
           "properties": {
             "startIpAddress": "0.0.0.0",
@@ -221,7 +219,7 @@
             "[resourceId('Microsoft.Sql/servers', variables('sqlServerNameStage'))]"
           ],
           "tags": {
-            "displayName": "Database Stage"
+            "displayName": "DatabaseStage"
           },
           "properties": {
             "collation": "[parameters('dbCollation')]",
@@ -502,7 +500,7 @@
               ],
               "properties": {
                 "DefaultConnectionString": {
-                  "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerNameDev'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters ('sqlAdministratorLogin'), '@', variables('sqlServerNameDev'), ';Password=', parameters('sqlAdministratorLoginPasswordForTest'), ';')]",
+                  "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerNameDev'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters ('sqlAdministratorLogin'), '@', variables('sqlServerNameDev'), ';Password=', parameters('sqlAdministratorLoginPassword'), ';')]",
                   "type": "SQLAzure"
                 }
               }
@@ -540,7 +538,7 @@
               ],
               "properties": {
                 "DefaultConnectionString": {
-                  "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerNameStage'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters ('sqlAdministratorLogin'), '@', variables('sqlServerNameStage'), ';Password=', parameters('sqlAdministratorLoginPasswordForTest'), ';')]",
+                  "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerNameStage'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters ('sqlAdministratorLogin'), '@', variables('sqlServerNameStage'), ';Password=', parameters('sqlAdministratorLoginPassword'), ';')]",
                   "type": "SQLAzure"
                 }
               }
