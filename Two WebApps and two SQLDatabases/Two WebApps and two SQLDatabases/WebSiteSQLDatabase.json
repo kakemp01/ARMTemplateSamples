@@ -1,58 +1,64 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        "appInsightsComponentName": {
-            "defaultValue": "MSDevOpsMusicStore2",
-            "type": "String"
-        },
-        "sqlServerName": {            
-            "type": "String"
-        },
-        "hostplanName": {
-            "type": "String"
-        },
-        "websiteName": {
-            "type": "String"
-        },
-        "databases_master_name": {
-            "defaultValue": "msdevopsmusicstore2srv/master",
-            "type": "String"
-        },
-        "databaseName": {
-            "defaultValue": "msdevopsmusicstore2srv/MSDevOpsMusicStore2DB",
-            "type": "String"
-        },
-        "firewallRules_AllowAllWindowsAzureIps_name": {
-            "defaultValue": "msdevopsmusicstore2srv/AllowAllWindowsAzureIps",
-            "type": "String"
-        },
-        "config_web_name": {
-            "defaultValue": "MSDevOpsMusicStore2/web",
-            "type": "String"
-        },
-        "hostNameBindings.azurewebsites.net_name": {
-            "defaultValue": "MSDevOpsMusicStore2/msdevopsmusicstore2.azurewebsites.net",
-            "type": "String"
-        },
-        "slots_Dev_name": {
-            "defaultValue": "MSDevOpsMusicStore2/Dev",
-            "type": "String"
-        },
-        "config_web_name_1": {
-            "defaultValue": "MSDevOpsMusicStore2/Dev/web",
-            "type": "String"
-        },
-        "hostNameBindings_dev.azurewebsites.net_name": {
-            "defaultValue": "MSDevOpsMusicStore2/Dev/msdevopsmusicstore2-dev.azurewebsites.net",
-            "type": "String"
-        },
-      "databaseNameDev": {
-        "defaultValue": "msdevopsmusicstore2srv/MSDevOpsMusicStore2DBdev",
-        "type": "string",
-        "minLength": 1
-      }
+  "parameters": {
+    "appInsightsComponentName": {
+      "defaultValue": "MSDevOpsMusicStore2",
+      "type": "String"
     },
+    "sqlServerName": {
+      "type": "String"
+    },
+    "sqlAdministratorLogin": {
+      "type": "String"
+    },
+    "sqlAdministratorLoginPassword": {
+      "type": "String"
+    },
+    "hostplanName": {
+      "type": "String"
+    },
+    "websiteName": {
+      "type": "String"
+    },
+    "databases_master_name": {
+      "defaultValue": "msdevopsmusicstore2srv/master",
+      "type": "String"
+    },
+    "databaseName": {
+      "defaultValue": "msdevopsmusicstore2srv/MSDevOpsMusicStore2DB",
+      "type": "String"
+    },
+    "firewallRules_AllowAllWindowsAzureIps_name": {
+      "defaultValue": "msdevopsmusicstore2srv/AllowAllWindowsAzureIps",
+      "type": "String"
+    },
+    "config_web_name": {
+      "defaultValue": "MSDevOpsMusicStore2/web",
+      "type": "String"
+    },
+    "hostNameBindings.azurewebsites.net_name": {
+      "defaultValue": "MSDevOpsMusicStore2/msdevopsmusicstore2.azurewebsites.net",
+      "type": "String"
+    },
+    "slots_Dev_name": {
+      "defaultValue": "MSDevOpsMusicStore2/Dev",
+      "type": "String"
+    },
+    "config_web_name_1": {
+      "defaultValue": "MSDevOpsMusicStore2/Dev/web",
+      "type": "String"
+    },
+    "hostNameBindings_dev.azurewebsites.net_name": {
+      "defaultValue": "MSDevOpsMusicStore2/Dev/msdevopsmusicstore2-dev.azurewebsites.net",
+      "type": "String"
+    },
+    "databaseNameDev": {
+      "defaultValue": "msdevopsmusicstore2srv/MSDevOpsMusicStore2DBdev",
+      "type": "string",
+      "minLength": 1
+    }
+  },
     "variables": {},
     "resources": [
         {
@@ -79,11 +85,11 @@
             "apiVersion": "2014-04-01-preview",
             "location": "West Europe",
             "scale": null,
-            "properties": {
-                "administratorLogin": "MyAdmin",
-                "administratorLoginPassword": null,
-                "version": "12.0"
-            },
+          "properties": {
+            "administratorLogin": "[parameters('sqlAdministratorLogin')]",
+            "administratorLoginPassword": "[parameters('sqlAdministratorLoginPassword')]",
+            "version": "12.0"
+          },
             "dependsOn": [],
           "resources": [
             {
