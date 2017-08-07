@@ -91,7 +91,74 @@
         "version": "12.0"
       },
       "dependsOn": [],
-      "resources": [        
+      "resources": [
+        {
+          "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Sql/servers/msdevopsmusicstore2srv/databases/master'.",
+          "type": "Microsoft.Sql/servers/databases",
+          "kind": "v12.0,system",
+          "name": "[parameters('databases_master_name')]",
+          "apiVersion": "2014-04-01-preview",
+          "location": "West Europe",
+          "scale": null,
+          "properties": {
+            "databaseId": "671aba9a-bf63-4621-8d68-d1ab1adc2974",
+            "edition": "System",
+            "status": "Online",
+            "serviceLevelObjective": "System2",
+            "collation": "SQL_Latin1_General_CP1_CI_AS",
+            "maxSizeBytes": "32212254720",
+            "creationDate": "2017-08-07T11:46:16.577Z",
+            "currentServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
+            "requestedServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
+            "requestedServiceObjectiveName": "System2",
+            "sampleName": null,
+            "defaultSecondaryLocation": "North Europe",
+            "earliestRestoreDate": null,
+            "elasticPoolName": null,
+            "containmentState": 2,
+            "readScale": "Disabled",
+            "failoverGroupId": null
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
+          ]
+        },
+        {
+          "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Sql/servers/msdevopsmusicstore2srv/databases/MSDevOpsMusicStore2DB'.",
+          "type": "Microsoft.Sql/servers/databases",
+          "kind": "v12.0,user",
+          "name": "[parameters('databaseName')]",
+          "apiVersion": "2014-04-01-preview",
+          "location": "West Europe",
+          "scale": null,
+          "properties": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS",
+            "edition": "Standard",
+            "maxSizeBytes": "1073741824",
+            "requestedServiceObjectiveName": "S0"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
+          ]
+        },
+        {
+          "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Sql/servers/msdevopsmusicstore2srv/databases/MSDevOpsMusicStore2DB'.",
+          "type": "Microsoft.Sql/servers/databases",
+          "kind": "v12.0,user",
+          "name": "[parameters('databaseNameDev')]",
+          "apiVersion": "2014-04-01-preview",
+          "location": "West Europe",
+          "scale": null,
+          "properties": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS",
+            "edition": "Standard",
+            "maxSizeBytes": "1073741824",
+            "requestedServiceObjectiveName": "S0"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
+          ]
+        }
       ]
     },
     {
@@ -167,74 +234,8 @@
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('hostplanName'))]"
       ]
-    },
-    {
-      "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Sql/servers/msdevopsmusicstore2srv/databases/master'.",
-      "type": "Microsoft.Sql/servers/databases",
-      "kind": "v12.0,system",
-      "name": "[parameters('databases_master_name')]",
-      "apiVersion": "2014-04-01-preview",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "databaseId": "671aba9a-bf63-4621-8d68-d1ab1adc2974",
-        "edition": "System",
-        "status": "Online",
-        "serviceLevelObjective": "System2",
-        "collation": "SQL_Latin1_General_CP1_CI_AS",
-        "maxSizeBytes": "32212254720",
-        "creationDate": "2017-08-07T11:46:16.577Z",
-        "currentServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
-        "requestedServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
-        "requestedServiceObjectiveName": "System2",
-        "sampleName": null,
-        "defaultSecondaryLocation": "North Europe",
-        "earliestRestoreDate": null,
-        "elasticPoolName": null,
-        "containmentState": 2,
-        "readScale": "Disabled",
-        "failoverGroupId": null
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
-      ]
-    },
-    {
-      "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Sql/servers/msdevopsmusicstore2srv/databases/MSDevOpsMusicStore2DB'.",
-      "type": "Microsoft.Sql/servers/databases",
-      "kind": "v12.0,user",
-      "name": "[parameters('databaseName')]",
-      "apiVersion": "2014-04-01-preview",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "collation": "SQL_Latin1_General_CP1_CI_AS",
-        "edition": "Standard",
-        "maxSizeBytes": "1073741824",
-        "requestedServiceObjectiveName": "S0"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
-      ]
-    },
-    {
-      "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Sql/servers/msdevopsmusicstore2srv/databases/MSDevOpsMusicStore2DB'.",
-      "type": "Microsoft.Sql/servers/databases",
-      "kind": "v12.0,user",
-      "name": "[parameters('databaseNameDev')]",
-      "apiVersion": "2014-04-01-preview",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "collation": "SQL_Latin1_General_CP1_CI_AS",
-        "edition": "Standard",
-        "maxSizeBytes": "1073741824",
-        "requestedServiceObjectiveName": "S0"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
-      ]
-    },
+    },   
+    
     {
       "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Sql/servers/msdevopsmusicstore2srv/firewallRules/AllowAllWindowsAzureIps'.",
       "type": "Microsoft.Sql/servers/firewallRules",
