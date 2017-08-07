@@ -1,247 +1,568 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "skuName": {
-      "type": "string",
-      "defaultValue": "F1",
-      "allowedValues": [
-        "F1",
-        "D1",
-        "B1",
-        "B2",
-        "B3",
-        "S1",
-        "S2",
-        "S3",
-        "P1",
-        "P2",
-        "P3",
-        "P4"
-      ],
-      "metadata": {
-
-        "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "components_MSDevOpsMusicStore2_name": {
+            "defaultValue": "MSDevOpsMusicStore2",
+            "type": "String"
+        },
+        "servers_msdevopsmusicstore2srv_name": {
+            "defaultValue": "msdevopsmusicstore2srv",
+            "type": "String"
+        },
+        "serverfarms_MSDevOpsMusicStore2_plan_name": {
+            "defaultValue": "MSDevOpsMusicStore2-plan",
+            "type": "String"
+        },
+        "sites_MSDevOpsMusicStore2_name": {
+            "defaultValue": "MSDevOpsMusicStore2",
+            "type": "String"
+        },
+        "databases_master_name": {
+            "defaultValue": "msdevopsmusicstore2srv/master",
+            "type": "String"
+        },
+        "databases_MSDevOpsMusicStore2DB_name": {
+            "defaultValue": "msdevopsmusicstore2srv/MSDevOpsMusicStore2DB",
+            "type": "String"
+        },
+        "firewallRules_AllowAllWindowsAzureIps_name": {
+            "defaultValue": "msdevopsmusicstore2srv/AllowAllWindowsAzureIps",
+            "type": "String"
+        },
+        "config_web_name": {
+            "defaultValue": "MSDevOpsMusicStore2/web",
+            "type": "String"
+        },
+        "hostNameBindings_msdevopsmusicstore2.azurewebsites.net_name": {
+            "defaultValue": "MSDevOpsMusicStore2/msdevopsmusicstore2.azurewebsites.net",
+            "type": "String"
+        },
+        "slots_Dev_name": {
+            "defaultValue": "MSDevOpsMusicStore2/Dev",
+            "type": "String"
+        },
+        "config_web_name_1": {
+            "defaultValue": "MSDevOpsMusicStore2/Dev/web",
+            "type": "String"
+        },
+        "hostNameBindings_msdevopsmusicstore2_dev.azurewebsites.net_name": {
+            "defaultValue": "MSDevOpsMusicStore2/Dev/msdevopsmusicstore2-dev.azurewebsites.net",
+            "type": "String"
+        },
+      "databases_MSDevOpsMusicStore2DBdev_Name": {
+        "type": "string",
+        "minLength": 1
       }
     },
-    "skuCapacity": {
-      "type": "int",
-      "defaultValue": 1,
-      "minValue": 1,
-      "metadata": {
-        "description": "Describes plan's instance count"
-      }
-    },
-    "sqlAdministratorLogin": {
-      "type": "string",
-      "metadata": {
-        "description": "The admin user of the SQL Server"
-      }
-    },
-    "sqlAdministratorLoginPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "The password of the admin user of the SQL Server"
-      }
-    },
-    "hostingPlanName": {
-      "type": "string"
-    },
-    "webSiteName": {
-      "type": "string"
-    },
-    "devSlot": {
-      "type": "string"
-    },
-    "sqlserverName": {
-      "type": "string",
-      "defaultValue": "KK-AzureSQL-SampleServer"
-    },
-    "databaseName": {
-      "type": "string",
-      "defaultValue": "KK-AzureSQL-Sampledb"
-    },
-    "databaseName-Dev": {
-      "type": "string",
-      "minLength": 1,
-      "defaultValue": "KK-AzureSQL-Sampledb-test"
-    },
-    "Database-Collation": {
-      "type": "string",
-      "minLength": 1,
-      "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
-    },
-    "Database-Edition": {
-      "type": "string",
-      "defaultValue": "Basic",
-      "allowedValues": [
-        "Basic",
-        "Standard",
-        "Premium"
-      ]
-    },
-    "Database-RequestedServiceObjectiveName": {
-      "type": "string",
-      "defaultValue": "Basic",
-      "allowedValues": [
-        "Basic",
-        "S0",
-        "S1",
-        "S2",
-        "P1",
-        "P2",
-        "P3"
-      ],
-      "metadata": {
-        "description": "Describes the performance level for Edition"
-      }
-    },
-    "appInsightsName": {
-      "type": "string"
-    },
-    "appInsightsName-dev": {
-      "type": "string"
-    }
-  },
-  "resources": [
-    {
-      "apiVersion": "2015-08-01",
-      "name": "[parameters('hostingPlanName')]",
-      "type": "Microsoft.Web/serverfarms",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "HostingPlan"
-      },
-      "sku": {
-        "name": "[parameters('skuName')]",
-        "capacity": "[parameters('skuCapacity')]"
-      },
-      "properties": {
-        "name": "[parameters('hostingPlanName')]"
-      }
-    },
-    {
-      "apiVersion": "2015-08-01",
-      "name": "[parameters('webSiteName')]",
-      "type": "Microsoft.Web/sites",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "Resource",
-        "displayName": "Website"
-      },
-      "dependsOn": [
-        "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
-      ],
-      "properties": {
-        "name": "[parameters('webSiteName')]",
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
-      },
-      "resources": [
+    "variables": {},
+    "resources": [
         {
-          "name": "slotConfigNames",
-          "type": "config",
-          "apiVersion": "2015-08-01",
-          "dependsOn": [
-            "[concat('Microsoft.Web/sites/', parameters('webSiteName'))]"
-          ],
-          "tags": {
-            "displayName": "slotConfigNames"
-          },
-          "properties": {
-            "appSettingNames": [
-              "insights:InstrumentationKey"
-            ]
-          }
+            "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/microsoft.insights/components/MSDevOpsMusicStore2'.",
+            "type": "microsoft.insights/components",
+            "kind": "web",
+            "name": "[parameters('components_MSDevOpsMusicStore2_name')]",
+            "apiVersion": "2014-04-01",
+            "location": "westeurope",
+            "tags": {
+                "hidden-link:/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Web/sites/MSDevOpsMusicStore2": "Resource"
+            },
+            "scale": null,
+            "properties": {
+                "ApplicationId": "[parameters('components_MSDevOpsMusicStore2_name')]"
+            },
+            "dependsOn": []
         },
         {
-          "name": "appsettings",
-          "type": "config",
-          "apiVersion": "2015-08-01",
-          "dependsOn": [
-            "[concat('Microsoft.Web/sites/', parameters('webSiteName'))]",
-            "[concat('Microsoft.Insights/components/', parameters('appInsightsName'))]"
-          ],
-          "tags": {
-            "displayName": "AppSettings"
-          },
-          "properties": {
-            "insights:InstrumentationKey": "[reference(concat('Microsoft.Insights/components/', parameters('appInsightsName'))).InstrumentationKey]"
-          }
-        },
-        {
-          "apiVersion": "2015-08-01",
-          "name": "[parameters('devSlot')]",
-          "type": "slots",
-          "tags": {
-            "displayName": "Dev Slot"
-          },
-          "location": "[resourceGroup().location]",
-          "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', parameters('webSiteName'))]"
-          ],
-          "properties": {
-          },
+            "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Sql/servers/msdevopsmusicstore2srv'.",
+            "type": "Microsoft.Sql/servers",
+            "kind": "v12.0",
+            "name": "[parameters('servers_msdevopsmusicstore2srv_name')]",
+            "apiVersion": "2014-04-01-preview",
+            "location": "West Europe",
+            "scale": null,
+            "properties": {
+                "administratorLogin": "MyAdmin",
+                "administratorLoginPassword": null,
+                "version": "12.0"
+            },
+            "dependsOn": [],
           "resources": [
             {
-              "name": "appsettings",
-              "type": "config",
-              "apiVersion": "2015-08-01",
+              "name": "[parameters('databases_MSDevOpsMusicStore2DBdev_Name')]",
+              "type": "databases",
+              "location": "West Europe",
+              "apiVersion": "2014-04-01-preview",
               "dependsOn": [
-                "[concat('Microsoft.Web/sites/', parameters('webSiteName'))]",
-                "[concat('Microsoft.Insights/components/', parameters('appInsightsName-dev'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_msdevopsmusicstore2srv_name'))]"
               ],
               "tags": {
-                "displayName": "AppSettings"
+                "displayName": "databases_MSDevOpsMusicStore2DBdev_name"
               },
               "properties": {
-                "insights:InstrumentationKey": "[reference(concat('Microsoft.Insights/components/', parameters('appInsightsName-dev'))).InstrumentationKey]"
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "edition": "Standard",
+                "maxSizeBytes": "1073741824",
+                "requestedServiceObjectiveName": "S0"
               }
             }
           ]
+        },
+      {
+        "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Web/serverfarms/MSDevOpsMusicStore2-plan'.",
+        "type": "Microsoft.Web/serverfarms",
+        "sku": {
+          "name": "S1",
+          "tier": "Standard",
+          "size": "S1",
+          "family": "S",
+          "capacity": 1
+        },
+        "kind": "app",
+        "name": "[parameters('serverfarms_MSDevOpsMusicStore2_plan_name')]",
+        "apiVersion": "2016-09-01",
+        "location": "West Europe",
+        "scale": null,
+        "properties": {
+          "name": "[parameters('serverfarms_MSDevOpsMusicStore2_plan_name')]",
+          "workerTierName": null,
+          "adminSiteName": null,
+          "hostingEnvironmentProfile": null,
+          "perSiteScaling": false,
+          "reserved": false,
+          "targetWorkerCount": 0,
+          "targetWorkerSizeId": 0
+        },
+        "dependsOn": []
+      },
+        {
+            "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Web/sites/MSDevOpsMusicStore2'.",
+            "type": "Microsoft.Web/sites",
+            "kind": "app",
+            "name": "[parameters('sites_MSDevOpsMusicStore2_name')]",
+            "apiVersion": "2016-08-01",
+            "location": "West Europe",
+            "tags": {
+                "hidden-related:/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourcegroups/MSDevOpsMusicStore2RG/providers/Microsoft.Web/serverfarms/MSDevOpsMusicStore2-plan": "empty"
+            },
+            "scale": null,
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('sites_MSDevOpsMusicStore2_name'),'msdevopsmusicstore2.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "[concat(parameters('sites_MSDevOpsMusicStore2_name'),'msdevopsmusicstore2.scm.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_MSDevOpsMusicStore2_plan_name'))]",
+                "reserved": false,
+                "siteConfig": null,
+                "scmSiteAlsoStopped": false,
+                "hostingEnvironmentProfile": null,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "cloningInfo": null
+            },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_MSDevOpsMusicStore2_plan_name'))]"
+          ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Sql/servers/msdevopsmusicstore2srv/databases/master'.",
+            "type": "Microsoft.Sql/servers/databases",
+            "kind": "v12.0,system",
+            "name": "[parameters('databases_master_name')]",
+            "apiVersion": "2014-04-01-preview",
+            "location": "West Europe",
+            "scale": null,
+            "properties": {
+                "databaseId": "671aba9a-bf63-4621-8d68-d1ab1adc2974",
+                "edition": "System",
+                "status": "Online",
+                "serviceLevelObjective": "System2",
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "maxSizeBytes": "32212254720",
+                "creationDate": "2017-08-07T11:46:16.577Z",
+                "currentServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
+                "requestedServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
+                "requestedServiceObjectiveName": "System2",
+                "sampleName": null,
+                "defaultSecondaryLocation": "North Europe",
+                "earliestRestoreDate": null,
+                "elasticPoolName": null,
+                "containmentState": 2,
+                "readScale": "Disabled",
+                "failoverGroupId": null
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_msdevopsmusicstore2srv_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Sql/servers/msdevopsmusicstore2srv/databases/MSDevOpsMusicStore2DB'.",
+            "type": "Microsoft.Sql/servers/databases",
+            "kind": "v12.0,user",
+            "name": "[parameters('databases_MSDevOpsMusicStore2DB_name')]",
+            "apiVersion": "2014-04-01-preview",
+            "location": "West Europe",
+            "scale": null,
+            "properties": {
+                "databaseId": "b446fdf2-dc77-45c1-81e9-6307b672d8aa",
+                "edition": "Standard",
+                "status": "Online",
+                "serviceLevelObjective": "S0",
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "maxSizeBytes": "268435456000",
+                "creationDate": "2017-08-07T11:46:51.683Z",
+                "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+                "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+                "requestedServiceObjectiveName": "S0",
+                "sampleName": null,
+                "defaultSecondaryLocation": "North Europe",
+                "earliestRestoreDate": "2017-08-07T11:57:35.623Z",
+                "elasticPoolName": null,
+                "containmentState": 2,
+                "readScale": "Disabled",
+                "failoverGroupId": null
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_msdevopsmusicstore2srv_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Sql/servers/msdevopsmusicstore2srv/firewallRules/AllowAllWindowsAzureIps'.",
+            "type": "Microsoft.Sql/servers/firewallRules",
+            "kind": "v12.0",
+            "name": "[parameters('firewallRules_AllowAllWindowsAzureIps_name')]",
+            "apiVersion": "2014-04-01-preview",
+            "location": "West Europe",
+            "scale": null,
+            "properties": {
+                "startIpAddress": "0.0.0.0",
+                "endIpAddress": "0.0.0.0"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_msdevopsmusicstore2srv_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Web/sites/MSDevOpsMusicStore2/config/web'.",
+            "type": "Microsoft.Web/sites/config",
+            "name": "[parameters('config_web_name')]",
+            "apiVersion": "2016-08-01",
+            "location": "West Europe",
+            "tags": {
+                "hidden-related:/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourcegroups/MSDevOpsMusicStore2RG/providers/Microsoft.Web/serverfarms/MSDevOpsMusicStore2-plan": "empty"
+            },
+            "scale": null,
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "pythonVersion": "",
+                "nodeVersion": "",
+                "linuxFxVersion": "",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": null,
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$MSDevOpsMusicStore2",
+                "publishingPassword": null,
+                "appSettings": null,
+                "metadata": null,
+                "connectionStrings": null,
+                "machineKey": null,
+                "handlerMappings": null,
+                "documentRoot": null,
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "javaVersion": null,
+                "javaContainer": null,
+                "javaContainerVersion": null,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false,
+                        "virtualDirectories": null
+                    }
+                ],
+                "winAuthAdminState": 0,
+                "winAuthTenantState": 0,
+                "customAppPoolIdentityAdminState": false,
+                "customAppPoolIdentityTenantState": false,
+                "runtimeADUser": null,
+                "runtimeADUserPassword": null,
+                "loadBalancing": "LeastRequests",
+                "routingRules": [],
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "limits": null,
+                "autoHealEnabled": false,
+                "autoHealRules": {
+                    "triggers": null,
+                    "actions": null
+                },
+                "tracingOptions": null,
+                "vnetName": "",
+                "siteAuthEnabled": false,
+                "siteAuthSettings": {
+                    "enabled": null,
+                    "unauthenticatedClientAction": null,
+                    "tokenStoreEnabled": null,
+                    "allowedExternalRedirectUrls": null,
+                    "defaultProvider": null,
+                    "clientId": null,
+                    "clientSecret": null,
+                    "issuer": null,
+                    "allowedAudiences": null,
+                    "additionalLoginParams": null,
+                    "isAadAutoProvisioned": false,
+                    "googleClientId": null,
+                    "googleClientSecret": null,
+                    "googleOAuthScopes": null,
+                    "facebookAppId": null,
+                    "facebookAppSecret": null,
+                    "facebookOAuthScopes": null,
+                    "twitterConsumerKey": null,
+                    "twitterConsumerSecret": null,
+                    "microsoftAccountClientId": null,
+                    "microsoftAccountClientSecret": null,
+                    "microsoftAccountOAuthScopes": null
+                },
+                "cors": null,
+                "push": null,
+                "apiDefinition": null,
+                "autoSwapSlotName": null,
+                "localMySqlEnabled": false,
+                "ipSecurityRestrictions": null
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_MSDevOpsMusicStore2_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Web/sites/MSDevOpsMusicStore2/hostNameBindings/msdevopsmusicstore2.azurewebsites.net'.",
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "name": "[parameters('hostNameBindings_msdevopsmusicstore2.azurewebsites.net_name')]",
+            "apiVersion": "2016-08-01",
+            "location": "West Europe",
+            "scale": null,
+            "properties": {
+                "siteName": "MSDevOpsMusicStore2",
+                "domainId": null,
+                "hostNameType": "Verified"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_MSDevOpsMusicStore2_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Web/sites/MSDevOpsMusicStore2/slots/Dev'.",
+            "type": "Microsoft.Web/sites/slots",
+            "kind": "app",
+            "name": "[parameters('slots_Dev_name')]",
+            "apiVersion": "2016-08-01",
+            "location": "West Europe",
+            "scale": null,
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "msdevopsmusicstore2-dev.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "msdevopsmusicstore2-dev.scm.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_MSDevOpsMusicStore2_plan_name'))]",
+                "reserved": false,
+                "siteConfig": null,
+                "scmSiteAlsoStopped": false,
+                "hostingEnvironmentProfile": null,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "cloningInfo": null
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_MSDevOpsMusicStore2_name'))]",
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_MSDevOpsMusicStore2_plan_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Web/sites/MSDevOpsMusicStore2/slots/Dev/config/web'.",
+            "type": "Microsoft.Web/sites/slots/config",
+            "name": "[parameters('config_web_name_1')]",
+            "apiVersion": "2016-08-01",
+            "location": "West Europe",
+            "scale": null,
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "pythonVersion": "",
+                "nodeVersion": "",
+                "linuxFxVersion": "",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": null,
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$MSDevOpsMusicStore2__Dev",
+                "publishingPassword": null,
+                "appSettings": null,
+                "metadata": null,
+                "connectionStrings": null,
+                "machineKey": null,
+                "handlerMappings": null,
+                "documentRoot": null,
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "javaVersion": null,
+                "javaContainer": null,
+                "javaContainerVersion": null,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false,
+                        "virtualDirectories": null
+                    }
+                ],
+                "winAuthAdminState": 0,
+                "winAuthTenantState": 0,
+                "customAppPoolIdentityAdminState": false,
+                "customAppPoolIdentityTenantState": false,
+                "runtimeADUser": null,
+                "runtimeADUserPassword": null,
+                "loadBalancing": "LeastRequests",
+                "routingRules": [],
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "limits": null,
+                "autoHealEnabled": false,
+                "autoHealRules": {
+                    "triggers": null,
+                    "actions": null
+                },
+                "tracingOptions": null,
+                "vnetName": "",
+                "siteAuthEnabled": false,
+                "siteAuthSettings": {
+                    "enabled": null,
+                    "unauthenticatedClientAction": null,
+                    "tokenStoreEnabled": null,
+                    "allowedExternalRedirectUrls": null,
+                    "defaultProvider": null,
+                    "clientId": null,
+                    "clientSecret": null,
+                    "issuer": null,
+                    "allowedAudiences": null,
+                    "additionalLoginParams": null,
+                    "isAadAutoProvisioned": false,
+                    "googleClientId": null,
+                    "googleClientSecret": null,
+                    "googleOAuthScopes": null,
+                    "facebookAppId": null,
+                    "facebookAppSecret": null,
+                    "facebookOAuthScopes": null,
+                    "twitterConsumerKey": null,
+                    "twitterConsumerSecret": null,
+                    "microsoftAccountClientId": null,
+                    "microsoftAccountClientSecret": null,
+                    "microsoftAccountOAuthScopes": null
+                },
+                "cors": null,
+                "push": null,
+                "apiDefinition": null,
+                "autoSwapSlotName": null,
+                "localMySqlEnabled": false,
+                "ipSecurityRestrictions": null
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_MSDevOpsMusicStore2_name'))]",
+                "[resourceId('Microsoft.Web/sites/slots', parameters('slots_Dev_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/83b365b1-567e-4c2c-8709-cc9a33bbd8a0/resourceGroups/MSDevOpsMusicStore2RG/providers/Microsoft.Web/sites/MSDevOpsMusicStore2/slots/Dev/hostNameBindings/msdevopsmusicstore2-dev.azurewebsites.net'.",
+            "type": "Microsoft.Web/sites/slots/hostNameBindings",
+            "name": "[parameters('hostNameBindings_msdevopsmusicstore2_dev.azurewebsites.net_name')]",
+            "apiVersion": "2016-08-01",
+            "location": "West Europe",
+            "scale": null,
+            "properties": {
+                "siteName": "MSDevOpsMusicStore2(Dev)",
+                "domainId": null,
+                "hostNameType": "Verified"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_MSDevOpsMusicStore2_name'))]",
+                "[resourceId('Microsoft.Web/sites/slots', parameters('slots_Dev_name'))]"
+            ]
         }
-      ]
-    },
-    {
-      "apiVersion": "2014-04-01",
-      "name": "[parameters('appInsightsName')]",
-      "type": "Microsoft.Insights/components",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[concat('Microsoft.Web/sites/', parameters('webSiteName'))]"
-      ],
-      "tags": {
-        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/',parameters('webSiteName'))]": "Resource",
-        "displayName": "AppInsightsComponent"
-      },
-      "properties": {
-        "applicationId": "[parameters('webSiteName')]"
-      }
-    },
-    {
-      "apiVersion": "2014-04-01",
-      "name": "[parameters('appInsightsName-dev')]",
-      "type": "Microsoft.Insights/components",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[concat('Microsoft.Web/sites/', parameters('webSiteName'))]"
-      ],
-      "tags": {
-        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/',parameters('webSiteName'))]": "Resource",
-        "displayName": "AppInsightsComponent-dev"
-      },
-      "properties": {
-        "applicationId": "[parameters('webSiteName')]"
-      }
-    }
-  ],
-  "outputs": {
-    "siteUri": {
-      "type": "string",
-      "value": "[reference(concat('Microsoft.Web/sites/', parameters('webSiteName'))).hostnames[0]]"
-    },
-    "sqlSvrFqdn": {
-      "type": "string",
-      "value": "[reference(concat('Microsoft.Sql/servers/', parameters('sqlserverName'))).fullyQualifiedDomainName]"
-    }
-  }
+    ]
 }
