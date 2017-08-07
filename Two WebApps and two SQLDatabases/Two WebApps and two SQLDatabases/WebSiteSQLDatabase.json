@@ -6,16 +6,13 @@
             "defaultValue": "MSDevOpsMusicStore2",
             "type": "String"
         },
-        "sqlServerName": {
-            "defaultValue": "msdevopsmusicstore2srv",
+        "sqlServerName": {            
             "type": "String"
         },
         "hostplanName": {
-            "defaultValue": "MSDevOpsMusicStore2-plan",
             "type": "String"
         },
         "websiteName": {
-            "defaultValue": "MSDevOpsMusicStore2",
             "type": "String"
         },
         "databases_master_name": {

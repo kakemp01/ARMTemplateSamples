@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
   "parameters": {
     "sqlServerName": {
-      "value": null
+      "value": "msdevopsmusicstore2srv"
     },
     "hostplanName": {
-      "value": null
+      "value": "MSDevOpsMusicStore2-plan"
     },
     "websiteName": {
-      "value": null
+      "value": "MSDevOpsMusicStore2"
     },
     "databaseName": {
       "value": null
