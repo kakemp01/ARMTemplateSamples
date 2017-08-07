@@ -48,6 +48,7 @@
             "type": "String"
         },
       "databaseNameDev": {
+        "defaultValue": "msdevopsmusicstore2srv/MSDevOpsMusicStore2DBdev",
         "type": "string",
         "minLength": 1
       }
