@@ -104,9 +104,6 @@
           "dependsOn": [
             "[resourceId('Microsoft.Sql/servers', variables('sqlServerName'))]"
           ],
-          "tags": {
-            "displayName":  "FirewallRule"
-          },
           "properties": {
             "startIpAddress": "0.0.0.0",
             "endIpAddress": "0.0.0.0"
@@ -153,9 +150,6 @@
           "dependsOn": [
             "[resourceId('Microsoft.Sql/servers', variables('sqlServerNameDev'))]"
           ],
-          "tags": {
-            "displayName": "FirewallRuleDev"
-          },
           "properties": {
             "startIpAddress": "0.0.0.0",
             "endIpAddress": "0.0.0.0"
@@ -202,9 +196,6 @@
           "dependsOn": [
             "[resourceId('Microsoft.Sql/servers', variables('sqlServerNameStage'))]"
           ],
-          "tags": {
-            "displayName": "FirewallRuleStage"
-          },
           "properties": {
             "startIpAddress": "0.0.0.0",
             "endIpAddress": "0.0.0.0"
