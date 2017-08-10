@@ -226,7 +226,8 @@
       "location": "West Europe",
       "apiVersion": "2014-04-01",
       "tags": {
-        "displayName": "insightsComponents"
+        "displayName": "insightsComponents",
+        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('WebsiteName'))]": "Resource"
       },
       "properties": {
         "ApplicationId": "[concat(parameters('websiteName'), '-Insights')]"
@@ -238,7 +239,8 @@
       "location": "West Europe",
       "apiVersion": "2014-04-01",
       "tags": {
-        "displayName": "insightsComponents"
+        "displayName": "insightsComponents",
+        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('WebsiteName'),'/slots/Dev'  )]": "Resource"
       },
       "properties": {
         "ApplicationId": "[concat(parameters('websiteName'), '-DevInsights')]"
@@ -250,7 +252,8 @@
       "location": "West Europe",
       "apiVersion": "2014-04-01",
       "tags": {
-        "displayName": "insightsComponents"
+        "displayName": "insightsComponents",
+        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('WebsiteName'),'/slots/Staging'  )]": "Resource"
       },
       "properties": {
         "ApplicationId": "[concat(parameters('websiteName'), '-StagingInsights')]"
